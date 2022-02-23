@@ -1,6 +1,7 @@
 import { preprocess } from "./parser/node_parse.js"
 import { parse } from "./parser/parse.js"
+import { LidyError } from './parser/errors.js'
 
-export default {
-    preprocess, parse
+export {
+    preprocess, parse, LidyError
 }

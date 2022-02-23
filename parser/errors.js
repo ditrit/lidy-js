@@ -1,6 +1,6 @@
 import { YAMLError } from 'yaml'
 
-export class LidyError extends YAMLError {
+class LidyError extends YAMLError {
     constructor(name, pos, message) {
         super(name, pos, 'IMPOSSIBLE', message);
         this.name = name
@@ -12,4 +12,6 @@ export class LidyError extends YAMLError {
         this.message += ` at line ${line}, column ${col} ${(ctx.file) ? ' @'+ctx.file : ''}`;
     }
 }
+
+export { LidyError }
 
