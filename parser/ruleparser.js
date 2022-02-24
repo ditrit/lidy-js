@@ -6,6 +6,11 @@ export class RuleParser {
 
   static parse(ctx, rule_name, rule, current) {
 
+    if (current == null) {
+      ctx.fileError("No source to parse")
+      return null
+    }
+
     if (RuleParser.scalartypes.includes(rule_name) || RuleParser.keywords.includes(rule_name)) {
       ctx.syntaxError(current, `'${rule_name}' is not allowed as rule_name in Lidy Grammar (reserved keyword)`)
       return null
