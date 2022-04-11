@@ -11,6 +11,7 @@ export class Ctx {
         this.yaml_ok  = false
         this.contents = null
         this.listener = null
+        this.prog = {}
     }
 
     errors(newErrors) {
