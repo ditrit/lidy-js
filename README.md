@@ -318,6 +318,32 @@ Running Lidy's tests:
 go test
 ```
 
+Install Lidy in your project:
+
+```sh
+npm install "https://github.com/ditrit/lidy-js.git#main" --save
+```
+
+Generate parser according to your grammar in your project:
+```sh
+# Place your grammar in src/lidy/[YOUR_GRAMMAR_NAME].yml.
+# Create a generate-parser.js in [YOUR_PROJECT]/scripts with this content: 
+import('lidy-js/parser/node_parse.js').then(({ preprocess }) => {
+  preprocess('src/lidy/[YOUR_GRAMMAR_NAME].yml');
+});
+
+# Add this line to your package.json script:
+"generate:parser": "node scripts/generate_parser.js"
+
+# Then run it:
+npm run generate:parser
+
+# Replace this in the generated js file
+import { parse as parse_input } from '../parser/parse.js'
+# by
+import { parse as parse_input } from 'lidy-js';
+```
+
 Testing, with the control offered by ginkgo:
 
 ```sh

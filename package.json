@@ -6,11 +6,10 @@
   "author": "DitRit",
   "license": "MPL-2.0",
   "dependencies": {
-    "glob": "^7.1.6",
-    "jasmine": "^3.7.0",
-    "package.json": "^2.0.1",
-    "sync-request": "^6.1.0",
     "yaml": "^2.0.0-5"
+  },
+  "devDependencies": {
+    "jasmine": "^3.7.0"
   },
   "description": "js lidy version",
   "repository": {
