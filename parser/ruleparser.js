@@ -28,9 +28,6 @@ export class RuleParser {
 
     // Call exit listener if it exists
     let fexit = "exit_" + rule_name
-    if (rule_name == 'node_template') {
-      console.log("Sortie de node_template");
-    }
 
     if (ctx.listener && ctx.listener[fexit]) {
       ctx.listener[fexit](parsedRule)
