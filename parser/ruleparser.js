@@ -27,11 +27,14 @@ export class RuleParser {
 
     // Call enter listener if it exists
     let fenter = "enter_" + rule_name
-    let isRegex = rule._regex !== undefined
-    let matchRegex = new RegExp(rule._regex).test(current.value)
+    let matchRegex = true
     current.ctx = ctx
 
-    if (ctx.listener && ctx.listener[fenter] && (!isRegex || matchRegex)) {
+    if (rule._regex !== undefined) {
+      matchRegex = new RegExp(rule._regex).test(current.value)
+    }
+
+    if (ctx.listener && ctx.listener[fenter] && matchRegex) {
       ctx.listener[fenter](current);
     }
 
@@ -51,7 +54,7 @@ export class RuleParser {
     // Call exit listener if it exists
     let fexit = "exit_" + rule_name
 
-    if (ctx.listener && ctx.listener[fexit] && (!isRegex || matchRegex)) {
+    if (ctx.listener && ctx.listener[fexit] && matchRegex) {
       ctx.listener[fexit](parsedRule)
     }
     return parsedRule
