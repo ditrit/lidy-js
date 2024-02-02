@@ -1,5 +1,5 @@
 import { ScalarNode } from "./scalarnode.js"
-import { isScalar  } from 'yaml'
+import { isScalar } from 'yaml'
 
 export class FloatNode extends ScalarNode {
   constructor(ctx, current) {
@@ -12,17 +12,15 @@ export class FloatNode extends ScalarNode {
   }
 
   static checkCurrent(current) {
-    return isScalar(current) && typeof(current.value) == 'number'
+    return isScalar(current)
+      && typeof(current.value) == 'number'
+      && (!Number.isInteger(current.value) || current.source.includes('.'));
   }
 
   static parse(ctx, current) {
-    try { return new FloatNode(ctx, current) 
+    try { return new FloatNode(ctx, current)
     } catch (error) {
       return null
     }
-
   }
-
 }
-
-
