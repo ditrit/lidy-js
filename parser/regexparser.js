@@ -1,11 +1,15 @@
+import { FloatNode } from "../nodes/scalars/floatnode.js";
 import { StringNode } from "../nodes/scalars/stringnode.js"
-
 
 export class RegexParser {
 
   static parse(ctx, rule, current) {
-    // current value is a string ?
-    if (! StringNode.checkCurrent(current)) {
+    let currentValueIsFloat = FloatNode.checkCurrent(current)
+
+    // determine current value type
+    if (currentValueIsFloat) {
+      current.value = current.value.toString()
+    } else if (! StringNode.checkCurrent(current)) {
       ctx.syntaxError(current, `Error: regular expressions match only strings, '${(current) ? current.value : ""}' is not a string`)
       return null
     }
@@ -13,7 +17,7 @@ export class RegexParser {
     // rule syntax is ok ('_regex' is the only one keyword)
     let ruleValue = rule._regex
     if (ruleValue == null) {
-      ctx.grammarError(`Error : regep rule must have a value for key '_regex'`)
+      ctx.grammarError(`Error : regexp rule must have a value for key '_regex'`)
       return null
     }
 
@@ -30,12 +34,15 @@ export class RegexParser {
     // string value matches the regex pattern
     if (! regex.test(current.value)) {
       ctx.syntaxError(current, `Error: value '${current.value}' does not match the regular expression '${regex}'`)
-    return null
-   } 
+      return null
+    }
 
-   // everything is ok
-   return new StringNode(ctx, current)
+    // everything is ok
+    if (currentValueIsFloat) {
+      current.value = parseFloat(current.value)
+      return new FloatNode(ctx, current)
+    } else {
+      return new StringNode(ctx, current)
+    }
   }
-
 }
-
