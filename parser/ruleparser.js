@@ -25,6 +25,14 @@ export class RuleParser {
       return null
     }
 
+    // In case Javascript removes the decimal part but we want to keep it
+    if (Number.isInteger(current.value)
+      && current.source.includes('.')
+      && current.value.toString() === current.source.split('.')[0]
+    ) {
+      current.value = current.source.toString() // New StringNode instead of FloatNode
+    }
+
     // Call enter listener if it exists
     let fenter = "enter_" + rule_name
     let matchRegex = true
