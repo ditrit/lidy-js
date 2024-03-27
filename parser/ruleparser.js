@@ -1,4 +1,5 @@
 import { parse_rule } from "./parse.js"
+
 export class RuleParser {
   static scalartypes  = ['string', 'int', 'float', 'null', 'boolean', 'binary', 'timestamp']
   static keywords     = [ '_map', '_mapOf', '_mapFacultative','_list', '_listOf', '_listFacultative', '_oneOf', '_regex', '_nb', '_min', '_max', '_in'] // merge?
@@ -26,13 +27,19 @@ export class RuleParser {
 
     // Call enter listener if it exists
     let fenter = "enter_" + rule_name
+    let matchRegex = true
     current.ctx = ctx
-    if (ctx.listener && ctx.listener[fenter]) {
-      ctx.listener[fenter](current)
+
+    if (rule._regex !== undefined) {
+      matchRegex = new RegExp(rule._regex).test(current.value)
+    }
+
+    if (ctx.listener && ctx.listener[fenter] && matchRegex) {
+      ctx.listener[fenter](current);
     }
 
     // Parse rule
-    let  parsedRule = parse_rule(ctx, null, rule, current)
+    let parsedRule = parse_rule(ctx, null, rule, current)
 
     if(this.throwOnError && parsedRule===null)
     {
@@ -47,7 +54,7 @@ export class RuleParser {
     // Call exit listener if it exists
     let fexit = "exit_" + rule_name
 
-    if (ctx.listener && ctx.listener[fexit]) {
+    if (ctx.listener && ctx.listener[fexit] && matchRegex) {
       ctx.listener[fexit](parsedRule)
     }
     return parsedRule
