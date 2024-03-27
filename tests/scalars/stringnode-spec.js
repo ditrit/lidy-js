@@ -14,34 +14,34 @@ describe("Lidy scalars ->", function() {
             function() { expect(  parse({src_data: "2 fois tagada pouet pouet", dsl_data: "main: string"}).result().value).toEqual('2 fois tagada pouet pouet') })
 
         it("a default multi line plain string",
-            function() { expect(  parse({src_data: `tagada 
-pouet pouet 
+            function() { expect(  parse({src_data: `tagada
+pouet pouet
   2 fois`, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet pouet 2 fois`) })
 
         it("a default multi line string with another line at end",
-            function() { expect(  parse({src_data: `tagada 
-pouet pouet 
+            function() { expect(  parse({src_data: `tagada
+pouet pouet
 2 fois
 
 plus un`, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet pouet 2 fois\nplus un`) })
 
         it("a default multi line string with escapes, quotes and another line at end",
-            function() { expect(  parse({src_data: `tagada 
-  pouet pouet\n"der" 
+            function() { expect(  parse({src_data: `tagada
+  pouet pouet\n"der"
   2 'fois'
 
   plus un`, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet pouet "der" 2 'fois'\nplus un`) })
 
         it("single quoted string with escapes, quotes and another line at end",
-            function() { expect(  parse({src_data: `'tagada 
-pouet pouet (newline \\n)\n"der" 
+            function() { expect(  parse({src_data: `'tagada
+pouet pouet (newline \\n)\n"der"
 2 ''fois''
 
 plus un'`, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet pouet (newline \\n) "der" 2 'fois'\nplus un`) })
 
         it("double quoted string with escapes, quotes and another line at end",
-            function() { expect(  parse({src_data: `"tagada 
-pouet pouet (newline \\\\n)\\n\\"der\\" 
+            function() { expect(  parse({src_data: `"tagada
+pouet pouet (newline \\\\n)\\n\\"der\\"
 2 'fois'
 
 plus un"`, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet pouet (newline \\n)\n"der" 2 'fois'\nplus un`) })
@@ -60,7 +60,7 @@ plus un"`, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet poue
     tagada
     pouet pouet
     2 fois
-  
+
     plus un`, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet pouet 2 fois\nplus un`) })
 
         it("folded block scalar style, all newlines at end",
@@ -68,9 +68,9 @@ plus un"`, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet poue
       tagada
       pouet pouet
       2 fois
-    
+
       plus un
-      
+
       `, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet pouet 2 fois\nplus un\n\n`) })
 
         it("literal block scalar style",
@@ -99,14 +99,20 @@ plus un"`, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet poue
 
 `, dsl_data: "main: string"}).result().value).toEqual(`tagada\npouet pouet\n2 fois\n\nplus un\n\n`) })
 
-        it("literal string with bad indent", 
+        it("literal string with bad indent",
             function() { expect(  parse({src_data: `|+
     tagada
     pouet pouet
 
-    2 fois 
+    2 fois
   plus un
 `, dsl_data: "main: string"}).errors[0].name).toEqual('YAMLParseError') })
+
+        it("A string with numbers only",
+            function() { expect( parse({src_data: "1.0.0", dsl_data: "main: string"}).result().value).toEqual("1.0.0")})
+
+        it("A float with null decimals",
+            function() { expect( parse({src_data: "1.000", dsl_data: "main: string"}).result().value).toEqual("1.000")})
 
         it("A string is not a number",
             function() { expect( parse({src_data: "11", dsl_data: "main: string"}).fails()).toEqual(true)})
@@ -115,7 +121,5 @@ plus un"`, dsl_data: "main: string"}).result().value).toEqual(`tagada pouet poue
             function() { expect( parse({src_data: "false", dsl_data: "main: string"}).fails()).toEqual(true)})
 
         it("A string is not null",
-            function() { expect( parse({src_data: "~", dsl_data: "main: string"}).fails()).toEqual(true)})
-        })
-
+            function() { expect( parse({src_data: "~", dsl_data: "main: string"}).fails()).toEqual(true)})})
 })

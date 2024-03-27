@@ -3,7 +3,7 @@ import { parse } from '../../parser/node_parse.js'
 describe("Lidy scalars ->", function() {
 
     describe("int scalar : ", function() {
-        
+
         it("positive int",
             function() { expect( parse({src_data: "2123", dsl_data: "main: int"}).result().value).toEqual(2123)})
 
@@ -21,9 +21,6 @@ describe("Lidy scalars ->", function() {
 
         it("string is not an int",
             function() { expect( parse({src_data: "7000 F", dsl_data: "main: int"}).fails()).toEqual(true)})
-
-        it("an int wrote as an int is an int", 
-            function() { expect( parse({src_data: "7.000", dsl_data: "main: int"}).result().value).toEqual(7)})
 
         it("a list is not a negative int...",
             function() { expect( parse({src_data: "- 7000 F", dsl_data: "main: int"}).fails()).toEqual(true)})
