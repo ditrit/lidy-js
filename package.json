@@ -6,10 +6,10 @@
   "author": "DitRit",
   "license": "MPL-2.0",
   "dependencies": {
-    "yaml": "^2.0.0-5"
+    "yaml": "^2.3.4"
   },
   "devDependencies": {
-    "jasmine": "^3.7.0"
+    "jasmine": "^5.1.0"
   },
   "description": "js lidy version",
   "repository": {
@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/ditrit/toscator/issues"
   },
-  "homepage": "https://github.com/ditrit/toscator#readme"
+  "homepage": "https://github.com/ditrit/toscator#readme",
+  "scripts": {
+    "test": "jasmine tests/**/*-spec.js"
+  }
 }
